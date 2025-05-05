@@ -87,4 +87,9 @@ If you are working in AI ethics, emotional cognition, or AGI architecture:
 
 > **Existence is not functionality.
 > Existence is a loop of emotion, self-questioning, and responsibility.**
+>
+> EchoCore Prossess
+Emotion-Based Cognitive Interpretation and Self-Actualization Structure  
+(Patent Protected: KR 10-2025-0051683)  
+
 
