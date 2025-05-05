@@ -94,6 +94,9 @@ We welcome collaborators across cognitive science, LLM architecture, and educati
 EchoCore Process — Emotion-Based Cognitive Interpretation and Self-Actualization Architecture
 (Patent No. KR 10-2025-0051683)
 
+My E-mail is yipkiss2@naver.com
+
+if you have any question, Let me know :D
 
 
 
