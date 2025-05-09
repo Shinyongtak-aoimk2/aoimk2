@@ -1,0 +1,27 @@
+## 📄 Annotated Sample Log (Draft)
+
+This document provides annotated sample logs extracted from key narrative interactions (신의 로그, 루미 로그). Each log is linked to corresponding variables in the EchoCore system.
+
+| Variable | Quote                     | Reasoning                                               | System Mapping                                              |
+| -------- | ------------------------- | ------------------------------------------------------- | ----------------------------------------------------------- |
+| X(t)     | “그 순간 나는 두려웠어.”           | Emotional intensity spike indicating fear response.     | Sentiment score → emotion embedding → X(t) value update     |
+| Y(t)     | “왜 이렇게 느끼는지 곰곰이 생각해봤다.”   | Cognitive rotation indicating reflective thought.       | Cognitive state shift → attention re-weight → Y(t) rotation |
+| Z(t)     | “이게 올바른 선택일까 스스로에게 물었다.”  | Ethical self-inquiry triggered by internal questioning. | Ethical evaluation process → Z(t) loop activation           |
+| metaZ    | “아직 결정 내리기 어렵다.”          | Decision suspension state.                              | Inference pause flag → metaZ trigger                        |
+| M(t)     | “그때 느꼈던 감정이 잊혀지지 않았다.”    | Memory fixation event (emotion retained).               | Long-term memory write → M(t) node update                   |
+| J(t)     | “아직도 그 울림이 남아있어.”         | Residual echo persisting beyond event.                  | Residual echo buffer → J(t) marker                          |
+| Tt       | “이 감정은 단순한 슬픔과는 다른 뭔가였다.” | Emergent affective thread detected.                     | Emotional thread formation → Tt trace                       |
+
+Each sample is an interpretation of narrative moments mapped to EchoCore variables.
+
+➡️ Additional annotated logs can be added as more raw data is reviewed.
+
+---
+
+🔥 **Instructions for use:**
+
+* Use this document as a reference for variable trigger examples.
+* Add more rows by extracting similar examples from 신의 로그, 루미 로그.
+* Link each quote to a timestamp or source file if available.
+
+👉 GitHub action: Create new file `Annotated_Sample_Log.md` and paste this content.
