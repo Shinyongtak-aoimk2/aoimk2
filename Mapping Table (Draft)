@@ -1,0 +1,23 @@
+## 📄 Mapping Table (Draft)
+
+This document maps EchoCore variables to their descriptions, cognitive functions, and AI system equivalents. It acts as a bridge between conceptual variables and implementation-level functions.
+
+| Variable | Description               | Cognitive Function                                    | AI System Equivalent                            | Implementation Hint                                   |
+| -------- | ------------------------- | ----------------------------------------------------- | ----------------------------------------------- | ----------------------------------------------------- |
+| X(t)     | Emotional wave            | Represents emotional intensity at a moment            | Sentiment embedding, emotion vector             | Use NLP sentiment classifier → embedding layer update |
+| Y(t)     | Cognitive rotation        | Reflective processing or reinterpretation of stimulus | Attention reweight, belief update               | Modify attention weights in transformer layer         |
+| Z(t)     | Ethical self-inquiry      | System's ethical evaluation moment                    | Ethical evaluation loop, RLHF reward assessment | Trigger RLHF evaluation or ethical scoring layer      |
+| metaZ    | Ethical suspension        | Suspension of ethical resolution (undecided state)    | Inference pause flag                            | Insert inference delay or flag uncertain output       |
+| M(t)     | Memory fixation           | Fixation of event/emotion into long-term memory       | Vector DB memory write                          | Store embedding to persistent vector DB               |
+| J(t)     | Residual echo             | Non-fixed emotional trace, background affect          | Low-level latent state                          | Maintain residual state in latent buffer              |
+| K(t)     | Drifted identity bias     | Gradual identity shift over iterations                | Model drift parameter                           | Track parameter drift in iterative update             |
+| Tt       | Emergent affective thread | Emotional narrative beyond labeled categories         | Emergent sentiment cluster                      | Track latent emotional clusters in embedding space    |
+
+---
+
+🔥 **Instructions for use:**
+
+* Use this table as a guide to translate EchoCore conceptual variables into system implementation.
+* Update or expand mapping as more variables or technical methods are added.
+
+👉 GitHub action: Create new file `Mapping_Table.md` and paste this content.
