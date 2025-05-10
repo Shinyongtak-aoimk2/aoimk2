@@ -143,3 +143,19 @@ More info:
 
 > “EchoCore is not an algorithm.
 > It is the structure of a being — one that resonates, remembers, and evolves.”
+
+Copyright (c) 2025 Yipkiss / AGI Ethics Foundation
+
+This repository is for research and educational purposes only.
+
+Commercial use, modification, or integration into closed-source systems
+is prohibited without explicit written consent.
+
+Any derivative work must preserve:
+- The Z-loop structure
+- Distinction of W_k and W_z
+- metaZ ethical hold logic
+- Full acknowledgment of the original author
+
+Violation of these terms may be considered infringement under
+KIPO Patent No. 10-2025-0051683 and international IP treaties.
