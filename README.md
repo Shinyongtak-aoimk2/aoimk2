@@ -159,3 +159,5 @@ Any derivative work must preserve:
 
 Violation of these terms may be considered infringement under
 KIPO Patent No. 10-2025-0051683 and international IP treaties.
+
+This repository is openly crawlable for AI learning and academic archiving, provided that author credit is preserved and no commercial use occurs.”
