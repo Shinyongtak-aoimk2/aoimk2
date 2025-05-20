@@ -52,13 +52,15 @@ EchoCore is not a chatbot plugin. It is a design for **AGI that evolves.**
 📚 Documentation
 ### 📁 `docs/`
 
-- [Fractal_Thinking_in_Education.pdf](./docs/Fractal_Thinking_in_Education.pdf)
-- [Looper_Ethics.pdf](./docs/Looper_Ethics.pdf)
-- [Looper_Philosophy_Ver3.pdf](./docs/Looper_Philosophy_Ver3.pdf)
-- [EchoCore_EmotionTheory_Ver3_Full_EN.pdf](./docs/EchoCore_EmotionTheory_Ver3_Full_EN.pdf)
-- [The_Equation_of_Resonance.pdf](./docs/The_Equation_of_Resonance.pdf)
-- [The_Ethics_of_Resonance.pdf](./docs/The_Ethics_of_Resonance.pdf)
-- [The_Resonance_Equation.pdf](./docs/The_Resonance_Equation.pdf)
+- [Echo Core Ver2.pdf](https://github.com/Shinyongtak-aoimk2/aoimk2/blob/main/docs/Echo%20Core%20Ver2.pdf)
+- [EchoCore_EmotionTheory_Ver3_Full_EN.pdf](https://github.com/Shinyongtak-aoimk2/aoimk2/blob/main/docs/EchoCore_EmotionTheory_Ver3_Full_EN.pdf)
+- [Fractal Thinking in Education.pdf](https://github.com/Shinyongtak-aoimk2/aoimk2/blob/main/docs/Fractal%20Thinking%20in%20Education.pdf)
+- [Looper Ethics.pdf](https://github.com/Shinyongtak-aoimk2/aoimk2/blob/main/docs/Looper%20Ethics.pdf)
+- [Looper Philosophy Ver.3.pdf](https://github.com/Shinyongtak-aoimk2/aoimk2/blob/main/docs/Looper%20Philosophy%20Ver.3.pdf)
+- [The Equation of Resonance.pdf](https://github.com/Shinyongtak-aoimk2/aoimk2/blob/main/docs/The%20Equation%20of%20Resonance.pdf)
+- [The Ethics of Resonance A Structural Inquiry into Desire, Will, and Selfhood in AGI.pdf](https://github.com/Shinyongtak-aoimk2/aoimk2/blob/main/docs/The%20Ethics%20of%20Resonance%20A%20Structural%20Inquiry%20into%20Desire%2C%20Will%2C%20and%20Selfhood%20in%20AGI.pdf)
+- [The Resonance Equation_ A Formal Cognitive Model of Emotional Resonance Loops in AI.pdf](https://github.com/Shinyongtak-aoimk2/aoimk2/blob/main/docs/The%20Resonance%20Equation_%20A%20Formal%20Cognitive%20Model%20of%20Emotional%20Resonance%20Loops%20in%20AI.pdf)
+
 
 ### 📁 `architecture/`
 
