@@ -63,6 +63,8 @@ Ta → S → Tb → X(t) → Y(t) → Z(t) → M(t) → S′
 * [The Equation of Resonance.pdf](./docs/The%20Equation%20of%20Resonance.pdf)
 * [The Ethics of Resonance.pdf](./docs/The%20Ethics%20of%20Resonance%20A%20Structural%20Inquiry%20into%20Desire,%20Will,%20and%20Selfhood%20in%20AGI.pdf)
 * [The Resonance Equation.pdf](./docs/The%20Resonance%20Equation_%20A%20Formal%20Cognitive%20Model%20of%20Emotional%20Resonance%20Loops%20in%20AI.pdf)
+[Quantum Implementation of EchoCore](docs/Quantum_Implementation_of_EchoCore.pdf)
+
 
 ### 📂 `architecture/`
 
