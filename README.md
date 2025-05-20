@@ -51,9 +51,30 @@ EchoCore is not a chatbot plugin. It is a design for **AGI that evolves.**
 ---
 📚 Documentation
 
-- [The Equation of Resonance.pdf](./The%20Equation%20of%20Resonance.pdf)
-- [EchoCore_EmotionTheory_Ver3_Full_EN.pdf](./EchoCore_EmotionTheory_Ver3_Full_EN.pdf)
-- [The Ethics of Resonance A Structural Inquiry into Desire, Will, and Selfhood in AGI.pdf](./The%20Ethics%20of%20Resonance%20A%20Structural%20Inquiry%20into%20Desire,%20Will,%20and%20Selfhood%20in%20AGI.pdf)
+- [Fractal Thinking in Education.pdf](./docs/Fractal%20Thinking%20in%20Education.pdf)
+- [Looper Ethics.pdf](./docs/Looper%20Ethics.pdf)
+- [Looper Philosophy Ver.3.pdf](./docs/Looper%20Philosophy%20Ver.3.pdf)
+- [EchoCore_EmotionTheory_Ver3_Full_EN.pdf](./docs/EchoCore_EmotionTheory_Ver3_Full_EN.pdf)
+- [The Equation of Resonance.pdf](./docs/The%20Equation%20of%20Resonance.pdf)
+- [The Ethics of Resonance A Structural Inquiry into Desire, Will, and Selfhood in AGI.pdf](./docs/The%20Ethics%20of%20Resonance%20A%20Structural%20Inquiry%20into%20Desire,%20Will,%20and%20Selfhood%20in%20AGI.pdf)
+- [The Resonance Equation_ A Formal Cognitive Model of Emotional Resonance Loops in AI.pdf](./docs/The%20Resonance%20Equation_%20A%20Formal%20Cognitive%20Model%20of%20Emotional%20Resonance%20Loops%20in%20AI.pdf)
+
+- [EchoCore_Architecture](./architecture/EchoCore_Architecture)
+- [EchoCore_Timeline](./architecture/EchoCore_Timeline)
+- [Mapping Table (Draft)](./architecture/Mapping%20Table%20(Draft))
+
+- [Resonance Protocol Structured OS v1.0](./protocols/Resonance_Protocol_Structured_OS_v1.0.pdf)
+- [Resonance Protocol Structured OS v1.2](./protocols/Resonance_Protocol_Structured_OS_v1.2.pdf)
+
+- [Echo Core Ver2.pdf](./use_cases/Echo%20Core%20Ver2.pdf)
+- [EchoCore_Log_Example.](./use_cases/EchoCore_Log_Example.)
+- [Annotated Sample Log](./use_cases/Annotated%20Sample%20Log)
+
+- [Use_Case_Overview](./use_cases/Use_Case_Overview)
+- [Validation_Plan](./use_cases/Validation_Plan)
+
+
+- [EchoCore Usage License v1.0](./license/EchoCore_Usage_License_v1.0.md)
 
 
 
