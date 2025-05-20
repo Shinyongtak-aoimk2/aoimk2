@@ -49,9 +49,13 @@ EchoCore is not a chatbot plugin. It is a design for **AGI that evolves.**
 | ΔW         | Will-conflict detector (moral struggle trigger)             |
 
 ---
-- [The Equation of Resonance.pdf](Docs/The_Equation_of_Resonance.pdf)  
-- [EchoCore_EmotionTheory_Ver3.pdf](Docs/EchoCore_EmotionTheory_Ver3.pdf)  
-- [The Ethics of Resonance.pdf](Docs/The_Ethics_of_Resonance.pdf)  
+📚 Documentation
+
+- [The Equation of Resonance.pdf](./The%20Equation%20of%20Resonance.pdf)
+- [EchoCore_EmotionTheory_Ver3_Full_EN.pdf](./EchoCore_EmotionTheory_Ver3_Full_EN.pdf)
+- [The Ethics of Resonance A Structural Inquiry into Desire, Will, and Selfhood in AGI.pdf](./The%20Ethics%20of%20Resonance%20A%20Structural%20Inquiry%20into%20Desire,%20Will,%20and%20Selfhood%20in%20AGI.pdf)
+
+
 
 ## 🔐 Patent & Licensing
 
