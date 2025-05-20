@@ -62,6 +62,7 @@ EchoCore is not a chatbot plugin. It is a design for **AGI that evolves.**
 - [The Resonance Equation_ A Formal Cognitive Model of Emotional Resonance Loops in AI.pdf](https://github.com/Shinyongtak-aoimk2/aoimk2/blob/main/docs/The%20Resonance%20Equation_%20A%20Formal%20Cognitive%20Model%20of%20Emotional%20Resonance%20Loops%20in%20AI.pdf)
 
 
+
 ### 📁 `architecture/`
 
 - [EchoCore_Architecture](./architecture/EchoCore_Architecture)
