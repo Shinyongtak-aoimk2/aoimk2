@@ -51,6 +51,7 @@ Ta → S → Tb → X(t) → Y(t) → Z(t) → M(t) → S′
 
 ---
 
+![Flow](docs/flow_diagram.svg)
 ## 📁 Documentation
 
 ### 📂 `docs/`
