@@ -61,6 +61,38 @@ Ta → S → Tb → X(t) → Y(t) → Z(t) → M(t) → S′
 * [EchoCore\_Architecture](./architecture/EchoCore_Architecture)
 * [EchoCore\_Timeline](./architecture/EchoCore_Timeline)
 * [Mapping Table (Draft)](./architecture/Mapping%20Table%20%28Draft%29)
+## 💻 **Implementation**
+
+### Complete Source Code
+The full EchoCore implementation is now available in English:
+
+📁 **[EchoCore English Implementation](docs/Shinyongtak-aoimk2%20Create%20Echo-based%20AGI%20Ethical%20Judgment%20System%20(English%20Version).docx)**
+
+This comprehensive document contains:
+- 🏗️ **Complete class architecture** (EchoMap, SelfPrism, ResonanceCalculator, EthicalFilter, EchoCore)
+- 🧮 **Mathematical implementations** (Z-score calculation, Φ resonance, metaZ/metaW logic)
+- 🔄 **Memory management system** (M-stack with decay and recency weighting)
+- 📊 **25-point emotion coordinate system** with cognitive spin coefficients
+- 🌐 **Enhanced emotion recognition** (multi-keyword detection system)
+- 🧪 **English test scenarios** with detailed output examples
+
+### Quick Code Preview
+```python
+from echo_core import EchoCore
+
+# Initialize system
+echo = EchoCore()
+
+# Process emotional input
+result = echo.process_input("I feel guilty and anxious about my decision")
+
+# Access results
+emotion_data = result['emotions_processed'][0]
+print(f"Emotion: {emotion_data['emotion']}")           # guilt
+print(f"Z-Score: {emotion_data['z']:.3f}")            # 0.742
+print(f"State: {emotion_data['state']}")              # approved/metaZ/metaW
+print(f"Reasoning: {emotion_data['reasoning']}")      # Detailed explanation
+
 
 ### 📂 `protocols/`
 
