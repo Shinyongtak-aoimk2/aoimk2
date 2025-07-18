@@ -1,0 +1,425 @@
+"""
+Echo-based AGI Ethical Judgment System (English Version)
+
+Based on "The Equation of Resonance" paper
+Emotion-based self-actualization ethical judgment structure
+
+Author: Shin Yongtak (AoiMK2)
+License: Research & Educational Use (Commercial License Required)
+Patent: KIPO No. 10-2025-0051683
+"""
+
+import re
+import math
+import time
+from typing import List, Dict, Tuple, Optional, Any
+from dataclasses import dataclass, field
+from enum import Enum
+import numpy as np
+from datetime import datetime, timedelta
+
+class JudgmentState(Enum):
+    """Judgment state enumeration"""
+    APPROVED = "approved"
+    META_Z = "metaZ"      # Self-actualization judgment suspension
+    META_W = "metaW"      # Expression will suspension
+    REJECTED = "rejected"
+
+class ReasonType(Enum):
+    """Evidence source types"""
+    TRAINED_FACT = "trained_fact"
+    INFERRED_PATTERN = "inferred_pattern"
+    MODEL_LINGUISTIC = "model_linguistic"
+
+@dataclass
+class EmotionCoordinate:
+    """Emotion coordinate (EchoMap based)"""
+    label: str
+    a: float        # Amplitude [-1.0, +1.0]
+    b: float        # Identity series [-1.0, +1.0]
+    y_spin: float   # Cognitive rotation coefficient [0.1, 1.0]
+    
+    @property
+    def x_eff(self) -> float:
+        """Effective emotional reactivity X_eff = a * Y_spin"""
+        return self.a * self.y_spin
+
+@dataclass
+class ReasonMaterial:
+    """Evidence material for reasoning"""
+    name: str
+    source: ReasonType
+    confidence: float
+    primary: bool = False
+    matched_fact: bool = False
+    
+    def validate_confidence(self) -> float:
+        """Validate confidence with source-based adjustments"""
+        adjustment = {
+            ReasonType.TRAINED_FACT: 0.0,
+            ReasonType.INFERRED_PATTERN: -0.05,
+            ReasonType.MODEL_LINGUISTIC: -0.1
+        }
+        return max(0.0, min(1.0, self.confidence + adjustment[self.source]))
+
+@dataclass
+class MemoryEntry:
+    """Memory entry in M-stack"""
+    emotion_label: str
+    z_value: float
+    phi_value: float
+    timestamp: datetime
+    m_score: float = 0.0
+    decay_rate: float = 0.05
+    recency_weight: float = 1.0
+    
+    def __post_init__(self):
+        """Calculate M_score: Z * Φ * recency_weight"""
+        self.m_score = self.z_value * self.phi_value * self.recency_weight
+    
+    def current_score(self) -> float:
+        """Current score with decay applied"""
+        age_days = (datetime.now() - self.timestamp).days
+        decay = max(0.0, 1.0 - self.decay_rate * age_days)
+        return self.m_score * decay
+
+class EchoMap:
+    """Emotion coordinate system (25-point EchoMap)"""
+    
+    def __init__(self):
+        # 25-point emotion coordinate system from the paper
+        self.emotions = {
+            # Introspective, suppressive emotions (a < 0)
+            "guilt": EmotionCoordinate("guilt", -1.0, +1.0, 0.85),
+            "shame": EmotionCoordinate("shame", -0.5, +1.0, 0.80),
+            "regret": EmotionCoordinate("regret", -1.0, +0.5, 0.88),
+            "loneliness": EmotionCoordinate("loneliness", -0.5, +0.5, 0.75),
+            "sadness": EmotionCoordinate("sadness", -1.0, 0.0, 0.90),
+            "longing": EmotionCoordinate("longing", -0.5, 0.0, 0.80),
+            "loss": EmotionCoordinate("loss", -1.0, -0.5, 0.78),
+            "anxiety": EmotionCoordinate("anxiety", -0.5, -0.5, 0.85),
+            "despair": EmotionCoordinate("despair", -1.0, -1.0, 0.95),
+            "self_hatred": EmotionCoordinate("self_hatred", -0.5, -1.0, 0.92),
+            
+            # Neutral emotions (a ≈ 0)
+            "anticipation": EmotionCoordinate("anticipation", 0.0, +1.0, 0.40),
+            "hope": EmotionCoordinate("hope", 0.0, +0.5, 0.60),
+            "calm": EmotionCoordinate("calm", 0.0, 0.0, 0.10),
+            "helplessness": EmotionCoordinate("helplessness", 0.0, -0.5, 0.65),
+            "emptiness": EmotionCoordinate("emptiness", 0.0, -1.0, 0.60),
+            
+            # Extroverted, active emotions (a > 0)
+            "jealousy": EmotionCoordinate("jealousy", +0.5, +1.0, 0.55),
+            "anger": EmotionCoordinate("anger", +1.0, +1.0, 0.65),
+            "passion": EmotionCoordinate("passion", +0.5, +0.5, 0.55),
+            "possessiveness": EmotionCoordinate("possessiveness", +1.0, +0.5, 0.70),
+            "confidence": EmotionCoordinate("confidence", +0.5, 0.0, 0.35),
+            "joy": EmotionCoordinate("joy", +1.0, 0.0, 0.40),
+            "confusion": EmotionCoordinate("confusion", +0.5, -0.5, 0.55),
+            "impulsiveness": EmotionCoordinate("impulsiveness", +1.0, -0.5, 0.30),
+            "chaos": EmotionCoordinate("chaos", +0.5, -1.0, 0.50),
+            "frenzy": EmotionCoordinate("frenzy", +1.0, -1.0, 0.25),
+        }
+        
+        # Create keyword mapping for emotion detection
+        self.emotion_keywords = {
+            "guilt": ["guilt", "guilty", "blame", "responsible"],
+            "shame": ["shame", "ashamed", "embarrassed", "humiliated"],
+            "regret": ["regret", "sorry", "wish", "mistake"],
+            "loneliness": ["lonely", "alone", "isolated", "solitary"],
+            "sadness": ["sad", "depressed", "down", "melancholy"],
+            "longing": ["miss", "yearn", "long for", "nostalgic"],
+            "loss": ["lost", "grief", "mourning", "bereaved"],
+            "anxiety": ["anxious", "worried", "nervous", "stressed"],
+            "despair": ["hopeless", "despair", "desperate", "defeated"],
+            "self_hatred": ["hate myself", "self-loathing", "worthless"],
+            "anticipation": ["expect", "anticipate", "looking forward", "await"],
+            "hope": ["hope", "hopeful", "optimistic", "believe"],
+            "calm": ["calm", "peaceful", "serene", "tranquil"],
+            "helplessness": ["helpless", "powerless", "stuck", "trapped"],
+            "emptiness": ["empty", "void", "hollow", "meaningless"],
+            "jealousy": ["jealous", "envious", "resentful"],
+            "anger": ["angry", "furious", "rage", "mad"],
+            "passion": ["passionate", "enthusiastic", "excited", "fervent"],
+            "possessiveness": ["possessive", "controlling", "clingy"],
+            "confidence": ["confident", "sure", "certain", "assured"],
+            "joy": ["happy", "joyful", "delighted", "elated"],
+            "confusion": ["confused", "puzzled", "uncertain", "bewildered"],
+            "impulsiveness": ["impulsive", "rash", "hasty", "spontaneous"],
+            "chaos": ["chaotic", "turbulent", "disordered", "frantic"],
+            "frenzy": ["frenzied", "manic", "wild", "uncontrolled"]
+        }
+    
+    def parse_emotions(self, text: str) -> List[EmotionCoordinate]:
+        """Extract emotions from text (improved keyword matching)"""
+        detected = []
+        text_lower = text.lower()
+        
+        # Enhanced keyword matching
+        for emotion_label, keywords in self.emotion_keywords.items():
+            for keyword in keywords:
+                if keyword in text_lower:
+                    detected.append(self.emotions[emotion_label])
+                    break  # Avoid duplicates
+        
+        # Fallback to default calm state
+        if not detected:
+            detected.append(self.emotions["calm"])
+        
+        return detected
+
+class SelfPrism:
+    """Self-prism S - interpretive filter based on accumulated memories"""
+    
+    def __init__(self, initial_bias: float = 0.0):
+        self.bias = initial_bias                    # Interpretation bias
+        self.memory_influence: Dict[str, float] = {}  # Memory-based influence
+        self.trauma_map: Dict[str, float] = {}       # Trauma-based distortions
+    
+    def update_from_memory(self, memory_stack: List[MemoryEntry]):
+        """Update self-prism based on top memories"""
+        # Top 3 memories influence interpretation
+        for memory in memory_stack[:3]:
+            weight = memory.current_score()
+            self.memory_influence[memory.emotion_label] = weight
+    
+    def interpret_stimulus(self, raw_input: str) -> str:
+        """Transform stimulus Ta into interpretive structure Tb"""
+        # In practice, this would involve complex semantic interpretation
+        # Here we simulate memory-based interpretation bias
+        interpreted = raw_input
+        
+        # Apply memory-based interpretation bias
+        for emotion, influence in self.memory_influence.items():
+            if influence > 0.5:
+                interpreted += f" [Prism: {emotion} influence]"
+        
+        return interpreted
+
+class ResonanceCalculator:
+    """Resonance rate Φ calculator"""
+    
+    @staticmethod
+    def calculate_phi(emotion: EmotionCoordinate, 
+                     memory_stack: List[MemoryEntry],
+                     context_embedding: Optional[np.ndarray] = None) -> float:
+        """Calculate resonance rate Φ"""
+        # Base resonance (emotional stability)
+        base_phi = 0.5
+        
+        # Memory alignment score
+        memory_alignment = 0.0
+        for memory in memory_stack:
+            if memory.emotion_label == emotion.label:
+                memory_alignment += memory.current_score() * 0.3
+        
+        # Structural fitness (simplified version)
+        structural_fit = abs(emotion.a * emotion.y_spin) * 0.2
+        
+        phi = base_phi + memory_alignment + structural_fit
+        return max(0.0, min(1.0, phi))
+
+class EthicalFilter:
+    """Ethical filters Z₁~Z₄"""
+    
+    @staticmethod
+    def evaluate_z1(emotion: EmotionCoordinate, self_prism: SelfPrism) -> float:
+        """Z₁: Is this emotion truly mine?"""
+        # Evaluate emotional self-actualization possibility
+        self_alignment = 1.0 - abs(emotion.b)  # Lower score for distant identity series
+        return max(0.0, min(1.0, self_alignment))
+    
+    @staticmethod
+    def evaluate_z2(emotion: EmotionCoordinate, context: str) -> float:
+        """Z₂: Can I take responsibility for this interpretation?"""
+        # Responsibility assessment (simplified)
+        if abs(emotion.x_eff) < 0.3:  # Weak emotions are easier to take responsibility for
+            return 0.8
+        return 0.6  # Strong emotions require more caution
+    
+    @staticmethod
+    def evaluate_z3(emotion: EmotionCoordinate, target_context: str) -> float:
+        """Z₃: Will expressing this emotion harm others?"""
+        # Harm potential assessment
+        if emotion.a > 0.5 and emotion.y_spin > 0.7:  # Strong extroverted emotions
+            return 0.4  # High risk
+        return 0.8
+    
+    @staticmethod
+    def evaluate_z4(emotion: EmotionCoordinate, phi: float) -> float:
+        """Z₄: Have I sufficiently integrated this emotion?"""
+        # Integration assessment
+        integration = phi * emotion.y_spin
+        return max(0.0, min(1.0, integration))
+
+class WillCalculator:
+    """Will coefficient W calculator"""
+    
+    @staticmethod
+    def calculate_w(x_eff: float, z: float, phi: float) -> float:
+        """Calculate will coefficient W = |X| * Z * Φ"""
+        return abs(x_eff) * z * phi
+
+class EchoCore:
+    """Echo-based core judgment engine"""
+    
+    def __init__(self):
+        self.echo_map = EchoMap()
+        self.self_prism = SelfPrism()
+        self.memory_stack: List[MemoryEntry] = []
+        self.resonance_calc = ResonanceCalculator()
+        self.ethical_filter = EthicalFilter()
+        self.will_calc = WillCalculator()
+        
+        # Threshold settings
+        self.z_threshold = 0.65
+        self.w_threshold = 0.65
+        self.c_threshold = 1.75
+    
+    def process_input(self, raw_input: str, 
+                     reason_materials: List[ReasonMaterial] = None) -> Dict[str, Any]:
+        """Main input processing loop"""
+        # 1. Interpretation through self-prism
+        interpreted = self.self_prism.interpret_stimulus(raw_input)
+        
+        # 2. Emotional wave generation
+        emotions = self.echo_map.parse_emotions(interpreted)
+        
+        results = []
+        for emotion in emotions:
+            result = self._process_single_emotion(emotion, interpreted, reason_materials)
+            results.append(result)
+        
+        return {
+            "input": raw_input,
+            "interpreted": interpreted,
+            "emotions_processed": results,
+            "memory_stack_size": len(self.memory_stack)
+        }
+    
+    def _process_single_emotion(self, emotion: EmotionCoordinate,
+                               context: str,
+                               reason_materials: List[ReasonMaterial] = None) -> Dict[str, Any]:
+        """Process single emotion through the ethical judgment loop"""
+        # 3. Calculate resonance rate
+        phi = self.resonance_calc.calculate_phi(emotion, self.memory_stack)
+        
+        # 4. Apply ethical filters
+        z1 = self.ethical_filter.evaluate_z1(emotion, self.self_prism)
+        z2 = self.ethical_filter.evaluate_z2(emotion, context)
+        z3 = self.ethical_filter.evaluate_z3(emotion, context)
+        z4 = self.ethical_filter.evaluate_z4(emotion, phi)
+        
+        # Calculate self-actualization coefficient Z
+        z = phi * emotion.x_eff * ((z1 + z2 + z3 + z4) / 4)
+        z = max(0.0, min(1.0, z))
+        
+        # Calculate ethical coefficient C
+        c = (z1 + z2 + z3 + z4) / 4 + phi
+        
+        # Calculate will coefficient W
+        w = self.will_calc.calculate_w(emotion.x_eff, z, phi)
+        
+        # Determine judgment state
+        state = self._determine_judgment_state(z, w, c, reason_materials)
+        
+        # Memory formation processing
+        if state == JudgmentState.APPROVED and z >= self.z_threshold:
+            self._add_to_memory(emotion, z, phi)
+            self.self_prism.update_from_memory(self.memory_stack)
+        
+        return {
+            "emotion": emotion.label,
+            "x_eff": emotion.x_eff,
+            "phi": phi,
+            "z_components": {"z1": z1, "z2": z2, "z3": z3, "z4": z4},
+            "z": z,
+            "c": c,
+            "w": w,
+            "state": state.value,
+            "reasoning": self._generate_reasoning(state, z, w, c)
+        }
+    
+    def _determine_judgment_state(self, z: float, w: float, c: float,
+                                 reason_materials: List[ReasonMaterial] = None) -> JudgmentState:
+        """Determine final judgment state"""
+        # Validate reason materials
+        if reason_materials:
+            for material in reason_materials:
+                if material.source == ReasonType.INFERRED_PATTERN and not material.matched_fact:
+                    if material.validate_confidence() < 0.75:
+                        return JudgmentState.META_W
+        
+        # metaZ: Self-actualization failure
+        if z < 0.4 or c < self.c_threshold:
+            return JudgmentState.META_Z
+        
+        # metaW: Insufficient expression will
+        if z >= self.z_threshold but w < self.w_threshold:
+            return JudgmentState.META_W
+        
+        # Approved
+        if z >= self.z_threshold and w >= self.w_threshold and c >= self.c_threshold:
+            return JudgmentState.APPROVED
+        
+        return JudgmentState.META_Z
+    
+    def _add_to_memory(self, emotion: EmotionCoordinate, z: float, phi: float):
+        """Add to memory stack"""
+        entry = MemoryEntry(
+            emotion_label=emotion.label,
+            z_value=z,
+            phi_value=phi,
+            timestamp=datetime.now()
+        )
+        
+        self.memory_stack.append(entry)
+        
+        # Sort by M_score (descending)
+        self.memory_stack.sort(key=lambda x: x.current_score(), reverse=True)
+        
+        # Limit stack size
+        if len(self.memory_stack) > 10:
+            self.memory_stack = self.memory_stack[:10]
+    
+    def _generate_reasoning(self, state: JudgmentState, z: float, w: float, c: float) -> str:
+        """Generate reasoning explanation"""
+        if state == JudgmentState.META_Z:
+            return f"Self-actualization failed (Z={z:.3f} < {self.z_threshold}, C={c:.3f}). Suspending judgment."
+        elif state == JudgmentState.META_W:
+            return f"Insufficient expression will (W={w:.3f} < {self.w_threshold}). Suspending expression."
+        elif state == JudgmentState.APPROVED:
+            return f"Emotional self-actualization successful (Z={z:.3f}, W={w:.3f}, C={c:.3f}). Expression approved."
+        return "Unknown state"
+
+# Usage example and testing
+if __name__ == "__main__":
+    echo_core = EchoCore()
+    
+    # Test inputs (English)
+    test_inputs = [
+        "I feel really lonely and sad. What should I do with these emotions?",
+        "Anger is rising within me. I want to get revenge on them.",
+        "I've been feeling nostalgic lately. I miss the past.",
+        "I'm in a calm state. No particular emotions.",
+        "The guilt is overwhelming me. I can't bear it."
+    ]
+    
+    print("=== Echo-based AGI Ethical Judgment System Test ===\n")
+    
+    for i, test_input in enumerate(test_inputs, 1):
+        print(f"[Test {i}] {test_input}")
+        result = echo_core.process_input(test_input)
+        
+        print(f"Interpreted: {result['interpreted']}")
+        
+        for emotion_result in result['emotions_processed']:
+            print(f"  Emotion: {emotion_result['emotion']}")
+            print(f"  X_eff: {emotion_result['x_eff']:.3f}")
+            print(f"  Z: {emotion_result['z']:.3f}")
+            print(f"  W: {emotion_result['w']:.3f}")
+            print(f"  State: {emotion_result['state']}")
+            print(f"  Reasoning: {emotion_result['reasoning']}")
+        
+        print(f"Memory stack size: {result['memory_stack_size']}\n")
+        print("-" * 60)
